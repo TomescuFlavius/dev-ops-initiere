@@ -1,0 +1,46 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]      
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    restart: unless-stopped
+  one-user-management-api:
+    image: flavius14/one-user-management-api:1.0
+    ports:
+      - "8072:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/user_management_db?createDatabaseIfNotExist=true
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+  online-shop-api:
+    image: flavius14/online-shop-api:3.0
+    ports:
+      - "8068:8084"
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/online_shop_db?createDatabaseIfNotExist=true
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+  online-school-api:
+    image: flavius14/online-school:2.1
+    ports:
+      - "8070:8082"    
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/online_school_db?createDatabaseIfNotExist=true
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  mysql_data :

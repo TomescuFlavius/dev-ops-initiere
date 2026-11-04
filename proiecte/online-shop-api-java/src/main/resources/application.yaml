@@ -1,9 +1,9 @@
 server:
-  port: ${SERVER_PORT:8082}
+  port: ${SERVER_PORT:8084}
 
 spring:
   datasource:
-    url: ${DB_URL:jdbc:mysql://127.0.0.1:3307/online_shop_spring?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true}
+    url: ${DB_URL:jdbc:mysql://127.0.0.1:3070/online_shop_spring?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true}
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:root}
     driver-class-name: com.mysql.cj.jdbc.Driver
